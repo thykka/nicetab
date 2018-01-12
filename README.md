@@ -12,5 +12,5 @@
 # Installation
 
 1. Clone this repo
-1. Go to Firefox' [Add-on developer settings](about:debugging)
+1. Go to Firefox' Add-on developer settings ([about:debugging](about:debugging))
 1. Click 'Load Temporary Add-on' and select manifest.json

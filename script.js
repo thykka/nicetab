@@ -94,7 +94,8 @@ function FavList() {
       f.el.favInput.id = 'favorite';
       f.el.favInput.setAttribute('type', 'text');
       f.el.favInput.classList.add('favorite-input');
-      f.el.favInput.addEventListener('focus', handleInputFocusin);
+      f.el.favInput.addEventListener('focusin', handleInputFocusin);
+      f.el.favInput.addEventListener('focusout', handleInputFocusout);
       f.el.favInput.addEventListener('keydown', handleInputKeydown);
     }
     if(!f.el.favLabel) {
@@ -106,7 +107,6 @@ function FavList() {
     f.el.root.appendChild(f.el.favInItem);
     f.el.favInItem.appendChild(f.el.favInput);
     f.el.favInItem.appendChild(f.el.favLabel);
-    f.el.favLabel.dataset.text = 'URL';
   };
 
   function handleRemoverClick(evt) {
@@ -116,34 +116,84 @@ function FavList() {
     f.removeFav(url, title);
   }
 
-  function handleInputFocusin(evt) {
-    if(evt.target.value === '') {
-      if(!f.tempURL) {
-        f.el.favInput.setAttribute('type', 'url');
-        evt.target.value = 'https://';
-      } else if(!!f.tempURL && !f.tempTitle) {
-        f.el.favInput.setAttribute('type', 'text');
-        evt.target.value = 'My Bookmark';
-      }
-      evt.target.setSelectionRange(0, evt.target.value.length);
+  function handleInputFocusout(evt) {
+    if(evt.target.value === 'https://') {
+      //evt.target.value = '';
     }
   }
+
+  function handleInputFocusin(evt) {
+    var input = evt.target;
+    if(input.value === '') {
+      if(!f.tempURL) {
+        input.value = 'https://';
+        switchToURLInput(input);
+      } else if(!!f.tempURL && !f.tempTitle) {
+        switchToTitleInput(input);
+      }
+      selectEntireInput(input);
+    }
+  }
+  function switchToTitleInput(input) {
+    f.el.favInput.setAttribute('type', 'text');
+    f.el.favLabel.dataset.text = 'Title';
+    input.value = 'My Bookmark';
+  }
+  function switchToURLInput(input) {
+    f.el.favInput.setAttribute('type', 'url');
+    f.el.favLabel.dataset.text = 'URL';
+  }
+  function switchToNoInput() {
+    f.el.favInput.setAttribute('type', 'text');
+    f.el.favInput.value = '';
+    f.el.favInput.blur();
+  }
+  function selectEntireInput(input) {
+    input.setSelectionRange(0, input.value.length);
+  }
   function handleInputKeydown(evt) {
-    if(!!evt.target.value && evt.keyCode == 13) {
+    var input = evt.target;
+    if(evt.keyCode === 27) {
+      // esc
+      evt.preventDefault();
+      switchToNoInput();
+      resetTemp();
+    }
+    else if(!!input.value && evt.keyCode === 13) {
+      // enter
       evt.preventDefault();
       if(!f.tempURL) {
-        f.tempURL = evt.target.value;
-        evt.target.value = '';
-        f.el.favLabel.dataset.text = 'Title';
+        saveTempURL(input.value);
+        switchToTitleInput(input);
+        selectEntireInput(input);
       } else if(!!f.tempURL && !f.tempTitle) {
-        f.tempTitle = evt.target.value;
-        evt.target.value = '';
-        f.el.favLabel.dataset.text = '';
-        f.newFav(Bookmark(f.tempURL, f.tempTitle));
-        f.tempTitle = false;
-        f.tempURL = false;
+        saveTempTitle(input.value);
+        f.newFav(
+          Bookmark(f.tempURL, f.tempTitle)
+        );
+        switchToNoInput();
+        resetTemp();
       }
     }
+  }
+
+  function saveTempURL(url) {
+    if(!f.tempURL) {
+      f.tempURL = url;
+    } else {
+      console.warn('tempURL already exists: ', f.tempURL);
+    }
+  }
+  function saveTempTitle(title) {
+    if(!f.tempName) {
+      f.tempTitle = title;
+    } else {
+      console.warn('tempName already exists: ', f.tempName);
+    }
+  }
+  function resetTemp() {
+    f.tempTitle = false;
+    f.tempURL = false;
   }
 
   function Bookmark (url, title) {
@@ -213,7 +263,7 @@ function IP() {
       }
     };
     request.onerror = function() {
-      console.log(arguments);
+      console.error(arguments);
     };
     request.send();
   }

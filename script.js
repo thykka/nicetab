@@ -94,12 +94,13 @@ function FavList() {
       f.el.favInput.id = 'favorite';
       f.el.favInput.setAttribute('type', 'text');
       f.el.favInput.classList.add('favorite-input');
-      f.el.favInput.addEventListener('focusin', handleInputFocusin);
+      f.el.favInput.addEventListener('focus', handleInputFocusin);
       f.el.favInput.addEventListener('keydown', handleInputKeydown);
     }
     if(!f.el.favLabel) {
       f.el.favLabel = document.createElement('label');
       f.el.favLabel.setAttribute('for', 'favorite');
+      f.el.favLabel.style.pointerEvents = 'none';
       f.el.favLabel.classList.add('favorite-label');
     }
     f.el.root.appendChild(f.el.favInItem);
@@ -116,10 +117,12 @@ function FavList() {
   }
 
   function handleInputFocusin(evt) {
-    if(evt.target.value == '') {
+    if(evt.target.value === '') {
       if(!f.tempURL) {
+        f.el.favInput.setAttribute('type', 'url');
         evt.target.value = 'https://';
       } else if(!!f.tempURL && !f.tempTitle) {
+        f.el.favInput.setAttribute('type', 'text');
         evt.target.value = 'My Bookmark';
       }
       evt.target.setSelectionRange(0, evt.target.value.length);

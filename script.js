@@ -279,14 +279,21 @@ function LinkList() {
         count: 13,
         element: document.querySelector('.list--bookmark'),
         filter: function(e, i, a) {
-          return e.url.indexOf('%s') == -1 && e.url.indexOf('javascript:') == -1;
+          return (
+            e.url.indexOf('%s') == -1 &&
+            e.url.indexOf('javascript:') == -1
+          );
         }
       },{
         prefix: 'toplist',
-        count: 13,
+        count: 19,
         element: document.querySelector('.list--toplist'),
         filter: function(e, i, a) {
-          return !(e.url.indexOf('/search') >= 0 && e.url.indexOf('q=') >= 0);
+          return (
+            e.url.indexOf('/search') == -1 &&
+            e.url.indexOf('q=') == -1 &&
+            e.url.indexOf('moz-extension://') == -1
+          );
         }
       }
     ]

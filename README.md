@@ -10,13 +10,16 @@
 
 
 # Installation
+## Firefox addon package (recommended)
+1. Download latest .xpi file from https://github.com/thykka/nicetab/releases
+1. Drag .xpi file into Firefox and follow instructions
 
+## From source
 1. Clone this repo
 1. Go to Firefox' Add-on developer settings ([about:debugging](about:debugging))
 1. Click 'Load Temporary Add-on' and select manifest.json
 
 # Usage
-
 ## Persistent custom links list
 
 - Add new links:

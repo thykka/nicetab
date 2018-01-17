@@ -24,5 +24,6 @@
   1. type or paste the address, press enter
   1. type a name for the link
   1. press enter to save the custom link
+  - to cancel, press ESC while input box is focused
 
-- Remove custom links by clicking the × beside it.
+- Remove custom links by first hovering one, then clicking the × beside it.

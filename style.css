@@ -183,9 +183,15 @@ body {
   padding: 0 .25rem;
   opacity: 0;
   vertical-align: top;
+  transition: opacity .25s ease, transform .25s ease;
+  transition-delay: 0s;
+  transform: scale(0);
+  transform-origin: 50% 50%;
 }
 [class^="item--"]:hover [class^="remove--"] {
   opacity: .3;
+  transition-delay: 0s, .5s;
+  transform: scale(1);
 }
 [class^="remove--"][class^="remove--"][class^="remove--"]:hover {
   cursor: pointer;

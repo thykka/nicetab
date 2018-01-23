@@ -65,6 +65,22 @@ function checkAllWindows() {
   });
 }
 
+async function fetchThemeFromStorage() {
+  var themes = await browser.storage.local.get('themes');
+  console.log(themes);
+  return themes;
+}
+
+function checkLS() {
+  var themes = fetchThemeFromStorage();
+  if(typeof themes === "undefined" || themes === null || !themes.hasOwnProperty('day')) {
+    saveTheme();
+  }
+}
+function saveTheme() {
+  browser.storage.local.set({themes});
+}
+
 // Set up an alarm to check this regularly.
 browser.alarms.onAlarm.addListener(checkAllWindows);
 browser.alarms.create('checkAllWindows', {periodInMinutes: 5});
@@ -72,3 +88,4 @@ browser.alarms.create('checkAllWindows', {periodInMinutes: 5});
 
 browser.windows.onCreated.addListener(checkAllWindows);
 checkAllWindows();
+checkLS();

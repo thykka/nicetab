@@ -3,8 +3,8 @@
 }
 html {
   box-sizing: border-box;
-  background-color: -moz-default-color;
-  color: -moz-default-background-color;
+  background-color: var(--bg);
+  color: var(--fg);
   font-size: 12px;
   line-height: 1;
 }
@@ -36,17 +36,17 @@ body {
 }
 
 a {
-  color: hsl(35, 40%, 80%);
+  color: var(--fg-alt);
   text-decoration: none;
   display: inline-block;
   position: relative;
 }
 a:hover {
-  color:  hsl(220, 90%, 95%);
-  text-shadow: 0 1px 0.1rem hsl(220,90%,60%);
+  color:  var(--fg);
+  text-shadow: 0 1px 0.1rem var(--bg-alt);
 }
 a::after {
-  background-color: hsl(35, 50%, 60%);
+  background-color: currentColor;
   content: '';
   display: block;
   opacity: 0.2;
@@ -105,7 +105,7 @@ body {
   z-index: -1;
 }
 .section.accent {
-  border-top: 2px solid hsl(35, 40%, 40%);
+  border-top: 2px solid var(--bg-alt);
 }
 .section.accent::before {
   border-top-right-radius: 0;

@@ -24,13 +24,66 @@ function Clock() {
   return c;
 }
 
+var injectedStyles;
+
+async function fetchThemesFromStorage() {
+  var themes = await browser.storage.local.get('themes');
+  return themes;
+}
+
+function setTheme(themeName) {
+  fetchThemesFromStorage().then(function(storage){
+    var theme = storage['themes'][themeName];
+    console.log(storage);
+    loadTheme(theme);
+  });
+
+}
+
+function loadTheme(theme) {
+  var css = [
+    ':root {',
+    '--bg: ', theme.colors.accentcolor, ';\n',
+    '--fg: ', theme.colors.textcolor, ';\n',
+    '--bg-alt: ', theme.colors.toolbar, ';\n',
+    '--fg-alt: ', theme.colors.toolbar_text, ';\n',
+    '}'
+  ].join('');
+  injectStyle(css);
+}
+
+function injectStyle(css) {
+  if(!injectedStyles) {
+    injectedStyles = document.createElement('style');
+    document.head.appendChild(injectedStyles);
+  }
+  injectedStyles.innerHTML = css;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+  updateTheme();
   moveTabAsLast();
   var favlist = FavList().init();
   var linklist = LinkList().init();
   var clock = Clock();
   var ip = IP();
 });
+
+function updateTheme() {
+  var themeName;
+  console.log(browser.extension.inIncognitoContext);
+  if(browser.extension.inIncognitoContext) {
+    themeName = 'incognito';
+  } else {
+    themeName = 'night';
+    var date = new Date();
+    var hours = date.getHours();
+    if ((hours > 9) && (hours < 18)) {
+      themeName = 'day';
+    }
+  }
+  setTheme(themeName);
+}
 
 function FavList() {
   var f = {

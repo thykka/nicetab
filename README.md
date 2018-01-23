@@ -7,6 +7,8 @@
   - Persistent (localStorage) custom links list
   - Bookmarks list
   - Frequent sites list (topSites)
+  - Changes window colors based on time of day
+  - Incognito windows have a special color
 
 
 # Installation

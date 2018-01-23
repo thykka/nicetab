@@ -4,8 +4,10 @@
   "name": "NiceTab",
   "description": "Replaces the new tab page with something nicer",
   "author": "Moses Holmström",
-  "version": "0.1.1",
-
+  "version": "0.1.2",
+  "background": {
+    "scripts": ["background.js"]
+  },
   "applications": {
     "gecko": {
       "id": "nicetab@cfds.science",
@@ -13,8 +15,11 @@
     }
   },
   "permissions": [
+    "alarms",
     "bookmarks",
+    "storage",
     "tabs",
+    "theme",
     "topSites"
   ],
   "chrome_url_overrides": {

@@ -4,10 +4,10 @@ var themes = {
       headerURL: '',
     },
     colors: {
-      accentcolor: '#DDD',
-      textcolor: '#111',
+      accentcolor: '#FFF',
+      textcolor: '#000',
       toolbar: '#EEE',
-      toolbar_text: 'black',
+      toolbar_text: '#666',
     }
   },
   'night': {
@@ -15,10 +15,10 @@ var themes = {
       headerURL: '',
     },
     colors: {
-      accentcolor: '#000',
-      textcolor: '#fff',
+      accentcolor: '#333',
+      textcolor: '#CCC',
       toolbar: '#111',
-      toolbar_text: '#EEE',
+      toolbar_text: '#AAA',
     }
   },
   'incognito': {
@@ -26,10 +26,10 @@ var themes = {
       headerURL: '',
     },
     colors: {
-      accentcolor: '#406',
-      textcolor: '#fcf',
-      toolbar: '#517',
-      toolbar_text: '#EEE',
+      accentcolor: '#315',
+      textcolor: '#EFF',
+      toolbar: '#426',
+      toolbar_text: '#FEE',
     }
   },
 };

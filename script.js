@@ -34,7 +34,6 @@ async function fetchThemesFromStorage() {
 function setTheme(themeName) {
   fetchThemesFromStorage().then(function(storage){
     var theme = storage['themes'][themeName];
-    console.log(storage);
     loadTheme(theme);
   });
 
@@ -63,6 +62,7 @@ function injectStyle(css) {
 document.addEventListener('DOMContentLoaded', function() {
   updateTheme();
   moveTabAsLast();
+  initSectionClosers();
   var favlist = FavList().init();
   var linklist = LinkList().init();
   var clock = Clock();
@@ -71,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function updateTheme() {
   var themeName;
-  console.log(browser.extension.inIncognitoContext);
   if(browser.extension.inIncognitoContext) {
     themeName = 'incognito';
   } else {
@@ -94,10 +93,13 @@ function FavList() {
 
   f.init = function (callback) {
     readFavs();
+  };
+
+  f.draw = function() {
     f.removeFavs();
     f.showFavs();
     f.showInput();
-  };
+  }
 
   f.removeFavs = function() {
     Array.from(document.querySelectorAll('.item--favorite'))
@@ -264,37 +266,70 @@ function FavList() {
     f.showInput();
   };
 
-  function readFavs () {
-    f.favs = JSON.parse(localStorage.getItem('favs'));
-    if(!f.favs) {
-      f.favs = [
-        // some defaults
-        { url: 'http://localhost:8888',
-          title: 'MAMP' },
-        { url: 'http://localhost:3000',
-          title: 'BrowserSync' },
-        { url: 'https://devdocs.io',
-          title: 'DevDocs' },
-        { url: 'https://gmail.com',
-          title: 'Gmail' },
-        { url: 'https://reddit.com',
-          title: 'Reddit' },
-        { url: 'https://web.telegram.org',
-          title: 'Telegram' },
-        { url: 'https://developer.mozilla.org/en-US/docs/Web/',
-          title: 'MDN' },
-        { url: 'https://codepen.io/pen/',
-          title: 'Codepen' },
-        { url: 'https://snag.gy/',
-          title: 'Snag.gy' },
-      ];
-      writeFavs();
-    }
+  /*
+
+  s.saveState = function() {
+    var state = s.buttons.map(el => {
+      return el.parentNode.parentNode
+        .classList.contains('section--closed');
+    });
+    browser.storage.local.set({sectionClosedState:state});
+  }
+  s.loadState = function() {
+    browser.storage.local.get('sectionClosedState')
+      .then(function(res) {
+        s.setState(res.sectionClosedState);
+      });
+  };
+  s.setState = function(state) {
+    console.log(state);
+    state.forEach(function(closed, index) {
+      if(closed) {
+        var section = s.buttons[index].parentNode.parentNode;
+        s.closeSection(section);
+      }
+    });
+  };
+  */
+  function readFavs() {
+    browser.storage.local.get('favlist')
+      .then(function(res) {
+        if(res.favlist) {
+          console.log(res);
+          f.favs = res.favlist;
+        } else {
+          f.favs = [
+            // some defaults
+            { url: 'http://localhost:8888',
+              title: 'MAMP' },
+            { url: 'http://localhost:3000',
+              title: 'BrowserSync' },
+            { url: 'https://devdocs.io',
+              title: 'DevDocs' },
+            { url: 'https://gmail.com',
+              title: 'Gmail' },
+            { url: 'https://reddit.com',
+              title: 'Reddit' },
+            { url: 'https://web.telegram.org',
+              title: 'Telegram' },
+            { url: 'https://developer.mozilla.org/en-US/docs/Web/',
+              title: 'MDN' },
+            { url: 'https://codepen.io/pen/',
+              title: 'Codepen' },
+            { url: 'https://snag.gy/',
+              title: 'Snag.gy' },
+          ];
+        }
+        console.log(f.favs);
+        f.draw();
+      });
   }
 
   function writeFavs() {
     if(f.favs) {
-      localStorage.setItem('favs', JSON.stringify(f.favs));
+      browser.storage.local.set({
+        favlist: f.favs
+      });
     } else {
       console.warn('nothing to write…');
     }
@@ -403,4 +438,75 @@ function moveTabAsLast() {
       index: -1
     });
   });
+}
+
+
+
+function initSectionClosers() {
+  var s = {
+    selector: '.toolbar-button--close',
+    closed: false
+  };
+  s.init = function() {
+    s.buttons = Array.from(
+      document.querySelectorAll(s.selector)
+    );
+    s.buttons.forEach(s.attachEvents);
+    s.loadState();
+    return s;
+  };
+  s.attachEvents = function(button, index, buttons) {
+    button.addEventListener('click', s.handleClick);
+  };
+  s.handleClick = function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    var section = this.parentNode.parentNode; // TODO: this has to be better
+    if(s.isClosed(section)) {
+      s.openSection(section);
+    } else {
+      s.closeSection(section);
+    }
+  };
+  s.isClosed = function(section) {
+    return section.classList.contains('section--closed');
+  };
+  s.closeSection = function(section) {
+    section.classList.add('section--closed');
+    section.addEventListener('mouseup', s.handleSectionClick);
+    s.saveState();
+  };
+  s.openSection = function(section) {
+    section.classList.remove('section--closed');
+    section.removeEventListener('mouseup', s.handleSectionClick);
+    s.saveState();
+  };
+  s.handleSectionClick = function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    s.openSection(this);
+  };
+  s.saveState = function() {
+    var state = s.buttons.map(el => {
+      return el.parentNode.parentNode
+        .classList.contains('section--closed');
+    });
+    browser.storage.local.set({sectionClosedState:state});
+  }
+  s.loadState = function() {
+    browser.storage.local.get('sectionClosedState')
+      .then(function(res) {
+        s.setState(res.sectionClosedState);
+      });
+  };
+  s.setState = function(state) {
+    console.log(state);
+    state.forEach(function(closed, index) {
+      if(closed) {
+        var section = s.buttons[index].parentNode.parentNode;
+        s.closeSection(section);
+      }
+    });
+  };
+  return s.init();
 }

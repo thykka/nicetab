@@ -11,12 +11,20 @@
   <script src="vendor/nativeColorPicker/nativeColorPicker.js" defer></script>
 
   <title>&nbsp;</title>
+
+  <script src="js/favlist.js" defer></script>
+  <script src="js/linklist.js" defer></script>
+  <script src="js/clock.js" defer></script>
+  <script src="js/ip.js" defer></script>
+  <script src="js/section-ui.js" defer></script>
+
+  <script src="js/loader.js" async></script>
   <style>
     body {
-      transition: opacity .5s ease-out;
+      transition: opacity .5s .1s ease-out;
     }
     body.loading {
-      /*opacity: 0;*/
+      opacity: 0;
     }
     body:not(.loading) {
       opacity: 1;
@@ -73,11 +81,6 @@
 
   </section>
 </div>
-<script src="js/favlist.js"></script>
-<script src="js/linklist.js"></script>
-<script src="js/clock.js"></script>
-<script src="js/ip.js"></script>
-<script src="js/section-ui.js"></script>
 </body>
 </html>
 

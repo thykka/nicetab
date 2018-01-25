@@ -11,9 +11,9 @@
 
 # Screenshots
 
-- ![Default New Tab view](examples/screenshot-0.1.4-default.view.png)
+- ![Default New Tab view](examples/screenshot-0.1.4-default-view.png)
 
-- ![Customized New Tab view](examples/screenshot-0.1.4-customized.view.png)
+- ![Customized New Tab view](examples/screenshot-0.1.4-customized-view.png)
 
 # Installation
 ## Firefox addon package (recommended)

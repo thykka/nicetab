@@ -1,3 +1,5 @@
+var currentThemes;
+
 updateTheme();
 
 function updateTheme() {
@@ -17,7 +19,7 @@ function updateTheme() {
 function setTheme(themeName) {
   fetchThemesFromStorage().then(function(storage){
     var theme = storage['themes'][themeName];
-    window.currentThemes = storage['themes'];
+    currentThemes = storage['themes'];
     loadTheme(theme);
     updateSettingsUI(storage['themes']);
   });
@@ -74,26 +76,33 @@ function handleColorInputInput(evt) {
     } else if(id[1] == 'bg') {
       themeKey = 'toolbar';
     }
-  }
+  } else { return; }
+  console.log(themeName, themeKey, input.value);
   changeThemeColor(themeName, themeKey, input.value);
 }
 function handleColorInputChange(evt) {
-  handleColorInputInput(evt);
-  notifyBackgroundScript(window.currentThemes);
+  //handleColorInputInput(evt);
+  notifyBackgroundScript();
 }
 function changeThemeColor(themeName, themeKey, colorValue) {
-  window.currentThemes[themeName].colors[themeKey] = colorValue;
-  updateThemesStorage();
-  updateTheme();
+  currentThemes[themeName].colors[themeKey] = colorValue;
+  updateThemesStorage().then(function() {
+    updateTheme();
+  });
 }
 
 async function updateThemesStorage() {
-  var themes = await browser.storage.local.set({themes: window.currentThemes});
+  var themes = await browser.storage.local.set({themes: currentThemes});
   return themes;
 }
 
-function notifyBackgroundScript(themes) {
-  browser.runtime.sendMessage({themes});
+function notifyBackgroundScript() {
+  try {
+    console.log(currentThemes);
+    browser.runtime.sendMessage({themes:currentThemes});
+  } catch(e) {
+    console.error(e);
+  }
 }
 
 function updateSettingsUI(themes) {

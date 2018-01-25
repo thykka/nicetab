@@ -93,7 +93,7 @@ checkAllWindows();
 function handleMessage(mess) {
   if (mess.themes) {
     themes = mess.themes;
+    checkAllWindows();
   }
-  checkAllWindows();
 }
 browser.runtime.onMessage.addListener(handleMessage);

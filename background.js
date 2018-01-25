@@ -4,10 +4,10 @@ var themes = {
       headerURL: '',
     },
     colors: {
-      accentcolor: '#FFF',
-      textcolor: '#000',
-      toolbar: '#EEE',
-      toolbar_text: '#666',
+      accentcolor: '#FFFFFF',
+      textcolor: '#000000',
+      toolbar: '#EEEEEE',
+      toolbar_text: '#666666',
     }
   },
   'night': {
@@ -15,10 +15,10 @@ var themes = {
       headerURL: '',
     },
     colors: {
-      accentcolor: '#333',
-      textcolor: '#CCC',
-      toolbar: '#111',
-      toolbar_text: '#AAA',
+      accentcolor: '#333333',
+      textcolor: '#CCCCCC',
+      toolbar: '#111111',
+      toolbar_text: '#AAAAAA',
     }
   },
   'incognito': {
@@ -26,10 +26,10 @@ var themes = {
       headerURL: '',
     },
     colors: {
-      accentcolor: '#315',
-      textcolor: '#EFF',
-      toolbar: '#426',
-      toolbar_text: '#FEE',
+      accentcolor: '#331155',
+      textcolor: '#EEFFFF',
+      toolbar: '#442266',
+      toolbar_text: '#FFEEEE',
     }
   },
 };
@@ -86,6 +86,14 @@ browser.alarms.onAlarm.addListener(checkAllWindows);
 browser.alarms.create('checkAllWindows', {periodInMinutes: 5});
 
 
+checkLS();
 browser.windows.onCreated.addListener(checkAllWindows);
 checkAllWindows();
-checkLS();
+
+function handleMessage(mess) {
+  if (mess.themes) {
+    themes = mess.themes;
+  }
+  checkAllWindows();
+}
+browser.runtime.onMessage.addListener(handleMessage);

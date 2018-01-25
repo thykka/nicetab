@@ -1,4 +1,5 @@
 updateTheme();
+
 function updateTheme() {
   var themeName;
   if(browser.extension.inIncognitoContext) {
@@ -13,17 +14,17 @@ function updateTheme() {
   }
   setTheme(themeName);
 }
-
-var injectedStyles;
-async function fetchThemesFromStorage() {
-  var themes = await browser.storage.local.get('themes');
-  return themes;
-}
 function setTheme(themeName) {
   fetchThemesFromStorage().then(function(storage){
     var theme = storage['themes'][themeName];
+    window.currentThemes = storage['themes'];
     loadTheme(theme);
+    updateSettingsUI(storage['themes']);
   });
+}
+async function fetchThemesFromStorage() {
+  var themes = await browser.storage.local.get('themes');
+  return themes;
 }
 function loadTheme(theme) {
   var css = [
@@ -36,10 +37,98 @@ function loadTheme(theme) {
   ].join('');
   injectStyle(css);
 }
+
+var injectedStyles;
 function injectStyle(css) {
   if(!injectedStyles) {
     injectedStyles = document.createElement('style');
     document.head.appendChild(injectedStyles);
   }
   injectedStyles.innerHTML = css;
+}
+
+
+attachSettingsUIListeners();
+function attachSettingsUIListeners() {
+  Array.from(
+    document.querySelectorAll('.theme-colors input[type="color"]')
+  ).forEach(input => {
+    input.addEventListener('input', handleColorInputInput);
+    input.addEventListener('change', handleColorInputChange);
+  });
+}
+function handleColorInputInput(evt) {
+  var input = evt.target;
+  var id = input.id.toString().split('_');
+  var themeName = id[0];
+  var themeKey;
+  if(id.length === 2) {
+    if(id[1] == 'fg') {
+      themeKey = 'textcolor';
+    } else if(id[1] == 'bg') {
+      themeKey = 'accentcolor';
+    }
+  } else if(id.length === 3) {
+    if(id[1] == 'fg') {
+      themeKey = 'toolbar_text';
+    } else if(id[1] == 'bg') {
+      themeKey = 'toolbar';
+    }
+  }
+  changeThemeColor(themeName, themeKey, input.value);
+}
+function handleColorInputChange(evt) {
+  handleColorInputInput(evt);
+  notifyBackgroundScript(window.currentThemes);
+}
+function changeThemeColor(themeName, themeKey, colorValue) {
+  window.currentThemes[themeName].colors[themeKey] = colorValue;
+  updateThemesStorage();
+  updateTheme();
+}
+
+async function updateThemesStorage() {
+  var themes = await browser.storage.local.set({themes: window.currentThemes});
+  return themes;
+}
+
+function notifyBackgroundScript(themes) {
+  browser.runtime.sendMessage({themes});
+}
+
+function updateSettingsUI(themes) {
+  var inputs = Array.from(
+    document.querySelectorAll('.theme-colors input[type="color"]')
+  );
+  inputs.forEach((input, index) => {
+    var themeName,
+
+    inputRow = Math.floor(index/4);
+    switch(inputRow) {
+      case 0:
+      themeName = 'day';
+      break;
+      case 1:
+      themeName = 'night'
+      break;
+      case 2:
+      themeName = 'incognito'
+      break;
+    }
+
+    var theme = themes[themeName];
+    var id = input.id.toString();
+    if(id.indexOf('bg_alt') >= 0) {
+      color = theme.colors.toolbar
+    } else if (id.indexOf('fg_alt') >= 0) {
+      color = theme.colors.toolbar_text
+    } else if (id.indexOf('bg') >= 0) {
+      color = theme.colors.accentcolor
+    } else if (id.indexOf('fg') >= 0) {
+      color = theme.colors.textcolor
+    }
+    if(color) {
+      input.value = color;
+    }
+  });
 }

@@ -6,11 +6,25 @@
   <meta name="googlebot" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
+  <script src="js/theme.js" async></script>
+  <script src="js/movetablast.js" async></script>
+  <script src="vendor/nativeColorPicker/nativeColorPicker.js" defer></script>
 
   <title>&nbsp;</title>
+  <style>
+    body {
+      transition: opacity .5s ease-out;
+    }
+    body.loading {
+      /*opacity: 0;*/
+    }
+    body:not(.loading) {
+      opacity: 1;
+    }
+  </style>
 
 </head>
-<body>
+<body class="loading">
   <div class="view">
   <section class="section system accent">
     <div class="section-toolbar">
@@ -59,7 +73,11 @@
 
   </section>
 </div>
-<script type='text/javascript' src="script.js"></script>
+<script src="js/favlist.js"></script>
+<script src="js/linklist.js"></script>
+<script src="js/clock.js"></script>
+<script src="js/ip.js"></script>
+<script src="js/section-ui.js"></script>
 </body>
 </html>
 

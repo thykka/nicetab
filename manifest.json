@@ -4,7 +4,7 @@
   "name": "NiceTab",
   "description": "Replaces the new tab page with something nicer",
   "author": "Moses Holmström",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "background": {
     "scripts": ["background.js"]
   },
@@ -24,6 +24,9 @@
   ],
   "chrome_url_overrides": {
     "newtab": "index.html"
+  },
+  "chrome_settings_overrides": {
+    "homepage": "index.html"
   },
   "content_security_policy": "style-src 'unsafe-inline' 'self'; object-src 'self';script-src 'unsafe-eval' 'self'"
 }

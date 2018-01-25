@@ -2,15 +2,18 @@
 
 - Replaces Firefox's New Tab -page with a custom dark themed page
 - New tabs are always placed last in the tab bar
-- Content modules:
+- Toggleable content modules:
   - Date & time
   - Persistent (localStorage) custom links list
   - Bookmarks list
   - Frequent sites list (topSites)
-  - Switches between custom window colors based on time of day
-  - Incognito windows have a special color
-  - Hide unwanted modules with a click
+- Switches between custom themes, based on time of day or incognito mode
 
+# Screenshots
+
+- ![Default New Tab view](examples/screenshot-0.1.4-default.view.png)
+
+- ![Customized New Tab view](examples/screenshot-0.1.4-customized.view.png)
 
 # Installation
 ## Firefox addon package (recommended)
@@ -33,3 +36,16 @@
   - to cancel, press ESC while input box is focused
 
 - Remove custom links by first hovering one, then clicking the × beside it.
+
+- Hide/show modules
+  1. Move cursor to the inner right edge of a module. A [X] button will appear
+  1. Click the button to hide the module. Module turns into a thin line
+  1. Click the thin line to show a module again
+
+- Customize theme
+  1. Move cursor to the bottom edge of the window. The toolbar will appear
+  1. The toolbar has 3 sets of swatches; for day mode, night mode and incognito mode, respectively
+  1. Change colors by clicking on the swatches
+
+- Disable theme switching
+  - Not currently possible, although one can manually unify each theme's colors as a workaround.

@@ -1,5 +1,5 @@
-initSectionClosers();
-function initSectionClosers() {
+SectionClosers();
+function SectionClosers() {
   var s = {
     selector: '.toolbar-button--close',
     closed: false

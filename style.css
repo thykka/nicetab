@@ -97,8 +97,6 @@ body {
       rgba(255, 255, 255, 0.02)
     );
   border: 0.5px solid var(--bg-alt);
-  border-top-right-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
   box-shadow: 0 0 0 0.5px rgba(0,0,0,0.25);
   content: '';
   display: block;
@@ -210,7 +208,6 @@ body {
     );
   background-size: 200% 100%;
   background-position: 100% 50%;
-  border-radius: .5rem;
   content: '';
   display: block;
   opacity: .1;

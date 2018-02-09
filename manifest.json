@@ -4,7 +4,7 @@
   "name": "NiceTab",
   "description": "Replaces the new tab page with something nicer",
   "author": "Moses Holmström",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "background": {
     "scripts": ["background.js"]
   },

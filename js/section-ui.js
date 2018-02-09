@@ -80,7 +80,11 @@ function SectionClosers() {
   s.loadState = function() {
     browser.storage.local.get('sectionClosedState')
       .then(function(res) {
-        setState(res.sectionClosedState);
+        if(res['sectionClosedState']) {
+          setState(res.sectionClosedState);
+        } else {
+          console.warn('No section state in storage');
+        }
       });
   };
   return s.init();

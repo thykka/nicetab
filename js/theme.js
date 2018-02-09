@@ -24,6 +24,7 @@ function setTheme(themeName) {
     updateSettingsUI(storage['themes']);
   });
 }
+
 async function fetchThemesFromStorage() {
   var themes = await browser.storage.local.get('themes');
   return themes;
@@ -81,7 +82,6 @@ function handleColorInputInput(evt) {
   changeThemeColor(themeName, themeKey, input.value);
 }
 function handleColorInputChange(evt) {
-  //handleColorInputInput(evt);
   notifyBackgroundScript();
 }
 function changeThemeColor(themeName, themeKey, colorValue) {

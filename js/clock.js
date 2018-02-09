@@ -1,4 +1,4 @@
-Clock();
+var clock = Clock();
 function Clock() {
   var c = {
     el: {

@@ -4,10 +4,10 @@ var themes = {
       headerURL: '',
     },
     colors: {
-      accentcolor: '#FFFFFF',
-      textcolor: '#000000',
-      toolbar: '#EEEEEE',
-      toolbar_text: '#666666',
+      accentcolor: "#fffbf0",
+      textcolor: "#533e17",
+      toolbar: "#f6ead8",
+      toolbar_text: "#7d6041"
     }
   },
   'night': {
@@ -15,10 +15,10 @@ var themes = {
       headerURL: '',
     },
     colors: {
-      accentcolor: '#333333',
-      textcolor: '#CCCCCC',
-      toolbar: '#111111',
-      toolbar_text: '#AAAAAA',
+      accentcolor: "#1f2029",
+      textcolor: "#e7e6ff",
+      toolbar: "#363858",
+      toolbar_text: "#ead9c2"
     }
   },
   'incognito': {
@@ -26,10 +26,10 @@ var themes = {
       headerURL: '',
     },
     colors: {
-      accentcolor: '#331155',
-      textcolor: '#EEFFFF',
-      toolbar: '#442266',
-      toolbar_text: '#FFEEEE',
+      accentcolor: "#2a2e4e",
+      textcolor: "#d7dbff",
+      toolbar: "#a04c84",
+      toolbar_text: "#ffbff1"
     }
   },
 };
@@ -42,7 +42,7 @@ function checkTime(win) {
   var date = new Date();
   var hours = date.getHours();
 
-  if ((hours > 9) && (hours < 18)) {
+  if ((hours >= 9) && (hours <= 17)) {
     setTheme(win, 'day');
   } else {
     setTheme(win, 'night');

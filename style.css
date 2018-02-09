@@ -2,7 +2,7 @@
   box-sizing: inherit;
 }
 :root {
-  --accent: hsl(270, 70%, 70%);
+  --accent: var(--fg-alt);
 }
 html {
   box-sizing: border-box;
@@ -42,7 +42,6 @@ a {
   color: var(--fg-alt);
   text-decoration: none;
   display: inline-block;
-  position: relative;
 }
 a:hover {
   color: var(--fg);
@@ -108,8 +107,9 @@ body {
   width: 100%;
   z-index: -1;
 }
-.section.accent {
-  border-top: 2px solid var(--accent);
+.section:first-child:not(.section--closed),
+.section--closed + .section:not(.section--closed) {
+  border-top: 1px solid var(--accent);
 }
 .section.accent::before {
   border-top-right-radius: 0;
@@ -121,7 +121,7 @@ body {
   border: 0;
   height: 2px;
   opacity: .25;
-  padding: 0;
+  padding: 2px 0;
   transform: scaleX(0.816);
   transition: transform .25s 0s ease;
 }
@@ -196,6 +196,9 @@ body {
   overflow: hidden;
   line-height: 1.2rem;
   text-overflow: ellipsis;
+  position: relative;
+}
+[class^="link--"] {
   position: relative;
 }
 [class^="link--"]::before {
@@ -373,6 +376,44 @@ body {
 .section.system .section-toolbar {
   padding: 0 0 0 1rem;
 }
+
+
+.section.apod {
+  background-color: black;
+  padding: 0;
+  position: relative;
+  height: 50vh;
+  overflow: hidden;
+}
+.section.apod .section-toolbar {
+  z-index: 1;
+}
+.section.apod::after {
+  box-shadow: inset 0 0 0 1px var(--bg-alt);
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  pointer-events: none;
+  height: 100%;
+}
+.section.apod img.loading {
+  opacity: 0;
+  transform: scale(1.15);
+}
+.section.apod img {
+  height: 100%;
+  position: absolute;
+  object-fit: cover;
+  left: 0;
+  top: 0;
+  width: 100%;
+  filter: blur(0rem);
+  transition: opacity 2s ease-in, transform 2s ease-out;
+  transform: scale(1.1);
+}
+
 .theme-tools {
   background-color: var(--bg-alt);
   position: fixed;

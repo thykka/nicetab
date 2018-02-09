@@ -38,11 +38,23 @@ function SectionClosers() {
   function closeSection(section) {
     section.classList.add('section--closed');
     section.addEventListener('mouseup', handleSectionClick);
+    if(
+      section.classList.contains('system') &&
+      window.hasOwnProperty('clock')
+    ) {
+      window.clock.stop();
+    }
     s.saveState();
   }
   function openSection(section) {
     section.classList.remove('section--closed');
     section.removeEventListener('mouseup', handleSectionClick);
+    if(
+      section.classList.contains('system') &&
+      window.hasOwnProperty('clock')
+    ) {
+      window.clock.start();
+    }
     s.saveState();
   }
   function handleSectionClick (event) {

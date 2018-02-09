@@ -186,6 +186,8 @@ function FavList() {
         } else {
           f.favs = [
             // some defaults
+            { url: 'https://github.com/thykka/nicetab/',
+              title: 'NiceTab' },
             { url: 'http://localhost:8888',
               title: 'MAMP' },
             { url: 'https://devdocs.io',

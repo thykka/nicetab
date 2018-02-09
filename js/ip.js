@@ -1,4 +1,4 @@
-IP();
+var ip = IP();
 
 function IP() {
   var ip = {
@@ -17,5 +17,9 @@ function IP() {
     };
     request.send();
   }
-  return ip.getExternal();
+  ip.init = function() {
+    ip.getExternal();
+    return ip;
+  };
+  return ip.init();
 }

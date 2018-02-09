@@ -3,22 +3,26 @@
 - Replaces Firefox's New Tab -page with a custom dark themed page
 - New tabs are always placed last in the tab bar
 - Toggleable content modules:
-  - Date & time
-  - Persistent (localStorage) custom links list
+  - Date, time and current external IP
+  - NASA Astronomy Picture Of the Day
+  - Persistent custom links list
   - Bookmarks list
   - Frequent sites list (topSites)
-- Switches between custom themes, based on time of day or incognito mode
+- Switches between custom color themes based on time of day, or when in incognito mode
 
 # Screenshots
 
-- ![Default New Tab view](examples/screenshot-0.1.4-default-view.png?t=latest)
+- ![Default day color scheme](examples/screenshot-0.1.6-default-theme.png?t=latest)
+
+- ![Default incognito color scheme](examples/screenshot-0.1.6-incognito.png?t=latest)
 
 - ![Customized New Tab view](examples/screenshot-0.1.4-customized-view.png?t=latest)
 
+
 # Installation
 ## Firefox addon package (recommended)
-1. Download latest .xpi file from https://github.com/thykka/nicetab/releases
-1. Drag .xpi file into Firefox and follow instructions
+1. Click to download latest .xpi file from https://github.com/thykka/nicetab/releases
+1. Firefox will prompt to install the extension
 
 ## From source
 1. Clone this repo

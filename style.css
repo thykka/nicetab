@@ -115,7 +115,7 @@ body {
   border-top-right-radius: 0;
 }
 
-.section.section--closed {
+.section.section--closed.section--closed.section--closed {
   background-color: var(--bg-alt);
   cursor: pointer;
   border: 0;
@@ -125,7 +125,7 @@ body {
   transform: scaleX(0.816);
   transition: transform .25s 0s ease;
 }
-.section.section--closed:hover {
+.section.section--closed.section--closed.section--closed:hover {
   transition: transform .25s .25s ease;
   transform: scaleX(1);
   opacity: 1;
